@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login Page</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(120deg, #ffecd2, #fcb69f);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .container {
+        text-align: center;
+    }
+    form {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        animation: fadeIn 0.8s ease-in-out;
+        width: 300px;
+        margin: auto;
+    }
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+    }
+    label {
+        font-weight: bold;
+        color: #555;
+    }
+    input[type="text"], 
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+    input:focus {
+        border-color: #fcb69f;
+        box-shadow: 0 0 8px rgba(252,182,159,0.5);
+        outline: none;
+    }
+    input[type="submit"] {
+        width: 100%;
+        background: #fcb69f;
+        color: white;
+        border: none;
+        padding: 12px;
+        margin-top: 15px;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    input[type="submit"]:hover {
+        background: #ff9a76;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .message {
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 8px;
+        font-weight: bold;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+    .error {
+        background: #ffe5e5;
+        color: #d9534f;
+        border: 1px solid #d9534f;
+    }
+    .success {
+        background: #e5ffe5;
+        color: #28a745;
+        border: 1px solid #28a745;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div id="messageArea"></div>
+
+    <form name="loginForm" action="CallLoginServlet" method="post">
+        <h2>Login</h2>
+        <table>
+            <tr>
+                <td><label>Username:</label></td>
+                <td><input type="text" name="username"></td>
+            </tr>
+            <tr>
+                <td><label>Password:</label></td>
+                <td><input type="password" name="password"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="Login"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    // Read the whole page content
+    let pageText = document.body.innerText;
+
+    if (pageText.includes("Welcome to homepage")) {
+        alert("Login Successful ✅");
+        document.getElementById("messageArea").innerHTML =
+            "<div class='message success'>Login Successful! Welcome 🎉</div>";
+    }
+    else if (pageText.includes("Wrong password") || pageText.includes("Wrong username")) {
+        alert("Login Failed ❌");
+        let match = pageText.match(/(\d+)\s*attempts/);
+        let attemptsLeft = match ? match[1] : "";
+        document.getElementById("messageArea").innerHTML =
+            "<div class='message error'>Wrong username or password, retry! " + attemptsLeft + " attempts left</div>";
+    }
+    else if (pageText.includes("Attempts are over")) {
+        alert("Attempts Over! Contact Admin ❗");
+        document.getElementById("messageArea").innerHTML =
+            "<div class='message error'>Attempts are over, contact admin!</div>";
+    }
+</script>
+
+</body>
+</html>
